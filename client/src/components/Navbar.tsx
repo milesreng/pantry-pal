@@ -3,6 +3,9 @@ import { Link, Outlet } from 'react-router-dom'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+
 const Navbar = () => {
 
   const [user, setUser] = useState<User | null>(null)
@@ -25,10 +28,19 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed'>
+      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed font-header text-lg'>
         <div>
-          <Link to='/'>Pantry Pal</Link>
+          <Link to='/'>
+            <FontAwesomeIcon icon={faUtensils} /> Pantry Pal
+          </Link>
         </div>
+        {user && (
+          <div className='flex gap-16'>
+            <Link to='/'>Explore</Link>
+            <Link to='/'>My Recipes</Link>
+            <Link to='/'>Shopping Lists</Link>
+          </div>
+        )}
         <div className='flex gap-4'>
           {user && (
             <>
@@ -42,7 +54,7 @@ const Navbar = () => {
             </>)}
         </div>
       </div>
-      <div className='pt-8'>
+      <div className='pt-10 font-content'>
         <Outlet />
       </div>
     </div>
