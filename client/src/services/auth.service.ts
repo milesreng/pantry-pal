@@ -9,7 +9,7 @@ class AuthService {
         body: JSON.stringify({email, password})
       })
 
-      if (!res.ok) throw new Error('login failed')
+      if (!res.ok) return { message: 'email or password is incorrect' }
 
       const data = await res.json()
 

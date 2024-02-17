@@ -2,7 +2,9 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { LoginResponse } from '../types/user.type'
+import validator from 'validator'
+
+import AuthService from '../services/auth.service'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -14,33 +16,24 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (typeof email === 'string' && typeof password === 'string') {
-      const user = {
-        email, password
+
+      if (!validator.isEmail(email)) {
+        setErrorMessage('Please enter a valid email.')
       }
 
       try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify(user)
-        })
+        const response = await AuthService.login(email, password)
 
-        const data = response.json()
+        if (response && response.accessToken) {
+          setErrorMessage('')
+          navigate('/dashboard')
+        } else {
+          setErrorMessage('Email or password is incorrect. Please try again.')
+        }
 
-        
-
-        // localStorage.setItem('accessToken', data.accessToken)
-
-        console.log(data)
-
-        // navigate('/dashboard')
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof Error) {
-          console.log(e.message)
-
-          setErrorMessage('Email or password is incorrect.')
+          setErrorMessage('login failed')
         }
       }
     }
