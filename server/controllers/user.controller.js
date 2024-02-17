@@ -80,6 +80,19 @@ const userController = {
       console.log(e)
       return res.status(402).json({ error: 'user authentication failed' })
     }
+  },
+  getUser: async (req, res) => {
+    try {
+      const dbUser = await User.findOne({ email: req.userData.email })
+
+      if (dbUser) {
+        return res.status(200).json(dbUser)
+      } else {
+        return res.status(404).json({ error: 'user not found' })
+      } 
+    } catch (e) {
+      return res.status(404).json({ error: 'could not retrieve user data' })
+    }
   }
 }
 

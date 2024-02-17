@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-
-interface UserData {
-  username: string,
-  email: string,
-  prevState: null
-}
+import UserService from '../services/user.service'
+import { User } from '../types/user.type'
 
 const Navbar = () => {
 
-  const [user, setUser] = useState<UserData | null>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    if (localStorage.token) {
-      fetch('/api/users', {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'Authorization': `Bearer ${localStorage.token}`
-        }
-      }).then(res => res.json())
-        .then(data => data.error ? setUser(null) : setUser(data))
-        .catch(e => {
-          console.log(e)
-        })
+    if (localStorage.accessToken) {
+      fetchUser()
     }
-  }, [localStorage.token])
+  }, [localStorage.accessToken])
+
+  const fetchUser = async () => {
+    const response = await UserService.getUserContent()
+
+    if (response && response.ok) {
+      setUser(await response.json())
+    } else {
+      setUser(null)
+    }
+  }
 
   return (
     <div>
@@ -34,6 +30,11 @@ const Navbar = () => {
           <Link to='/'>Pantry Pal</Link>
         </div>
         <div className='flex gap-4'>
+          {user && (
+            <>
+              Hi, {user.firstname}
+            </>
+          )}
           {!user && (
             <>
               <Link to='/login'>Login</Link>
