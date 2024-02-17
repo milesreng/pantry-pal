@@ -3,7 +3,7 @@ const connectDB = require('./config/db.config')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const authRoutes = require('./routes/api/auth.routes')
+const authRoutes = require('./routes/auth.routes')
 
 
 const app = express()

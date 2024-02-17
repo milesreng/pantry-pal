@@ -25,16 +25,60 @@ const userController = {
         return res.status(400).json({error: 'username not valid'})
       }
 
-      
-    } catch (e) {
+      const takenUsername = await User.findOne({username: user.username})
+      const takenEmail = await User.findOne({email: user.email})
 
+      if (takenUsername) {
+        return res.status(400).json({error: 'username has been taken'})
+      } else if (takenEmail) {
+        return res.status(400).json({error: 'there is already an account connected to this email'})
+      }
+
+      const hashedPassword = await bcrypt.hash(user.password, 10)
+      const lowerUsername = user.username.toLowerCase()
+
+      const newUser = new User({ 
+        username: lowerUsername, 
+        firstname: user.firstname,
+        email: user.email,
+        password: hashedPassword})
+
+      await newUser.save()
+
+      return res.status(201).json({ message: 'user successfully registered' })
+    } catch (e) {
+      return res.status(402).json({ error: 'user could not be created' })
     }
   }, 
   login: async (req, res) => {
     try {
+      const { email, password } = req.body
+      const dbUser = await User.findOne({ email })
 
+      if (dbUser) {
+        var isMatch = await bcrypt.compare(password, dbUser.password)
+      } else {
+        return res.status(404).json({ error: 'user not found' })
+      }
+  
+      // Match password with database password
+      if (!isMatch) {
+        return res.status(400).json({ error:'invalid username or password' })
+      }
+  
+      // Create a JSON web token
+      const accessToken = jwt.sign({ userId: dbUser._id, email: dbUser.email }, process.env.SECRET_KEY, {
+        expiresIn: '1h'
+      })
+
+      const refreshToken = jwt.sign({ userId: dbUser._id, email: dbUser.email }, process.env.SECRET_KEY, {
+        expiresIn: '1d'
+      })
+
+      res.status(200).json({ message: 'user successfully authenticated', accessToken, refreshToken, ...dbUser })
     } catch (e) {
-      
+      console.log(e)
+      return res.status(402).json({ error: 'user authentication failed' })
     }
   }
 }
