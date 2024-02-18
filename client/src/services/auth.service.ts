@@ -13,9 +13,7 @@ class AuthService {
 
       const data = await res.json()
 
-      if (data.accessToken) {
-        localStorage.setItem('accessToken', data.accessToken)
-      }
+      localStorage.setItem('accessToken', data.accessToken)
 
       return data
     } catch(e: unknown) {
@@ -35,11 +33,9 @@ class AuthService {
         body: JSON.stringify({username, first, email, password})
       })
 
-      if (!res.ok) throw new Error('registration failed')
+      if (!res.ok) return false
 
-      const data = await res.json()
-
-      return data
+      return true
     } catch (e: unknown) {
       if (e instanceof Error) console.error(e.message)
     }
