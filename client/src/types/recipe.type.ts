@@ -13,5 +13,13 @@ export interface Recipe {
   title: string,
   description: string | null,
   servings: number,
-  ingredients: RecipeIngredient[] | []
+  ingredients: RecipeIngredient[] | [],
+  steps: string[],
+  tags: string[],
+  public: boolean
+}
+
+export interface OptionType {
+  label: string,
+  value: string
 }
