@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
 import validator from 'validator'
 
 import AuthService from '../services/auth.service'
+import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
+  const { login } = useAuth()
   const navigate = useNavigate()
   
   const [email, setEmail] = useState<string | null>()
@@ -25,6 +26,7 @@ const Login = () => {
         const response = await AuthService.login(email, password)
 
         if (response && response.accessToken) {
+          login()
           setErrorMessage('')
           navigate('/dashboard')
         } else {
