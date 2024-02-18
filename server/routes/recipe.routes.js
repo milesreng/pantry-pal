@@ -33,4 +33,14 @@ router.get('/ingredients/:category', recipeController.get_ingredients_by_categor
 // @status  --
 router.post('/ingredients', checkAuth, recipeController.create_ingredient)
 
+// @route   GET api/recipes/tags
+// @desc    Get all recipe tags
+// @status  --
+router.get('/tags', recipeController.get_all_tags)
+
+// @route   POST api/recipes/tags
+// @desc    Create new tag
+// @status  --
+router.post('/tags', recipeController.create_tag)
+
 module.exports = router

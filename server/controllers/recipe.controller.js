@@ -1,6 +1,7 @@
 const ObjectId = require('mongodb').ObjectId
 
 const { Ingredient } = require('../models/ingredient.model')
+const { RecipeTag } = require('../models/tag.model')
 const Recipe = require('../models/recipe.model')
 
 const recipeController = {
@@ -27,12 +28,13 @@ const recipeController = {
   },
   create_recipe: async (req, res) => {
     try {
+      const recipe = req.body
       const ingredients = []
 
-      if (req.recipe.ingredients) {
+      if (recipe.ingredients) {
 
         // assume list of Ingredient IDs
-        for (let ingredient in req.recipe.ingredients) {
+        for (let ingredient in recipe.ingredients) {
           let ingr = await Ingredient.findById(ingredient.id)
 
           if (ingr) ingredients.push({
@@ -45,8 +47,8 @@ const recipeController = {
 
       const newRecipe = new Recipe({
         user_id: req.userData.userId,
-        title: req.recipe.title,
-        servings: req.recipe.servings,
+        title: recipe.title,
+        servings: recipe.servings,
         ingredients
       })
 
@@ -72,11 +74,13 @@ const recipeController = {
   },
   create_ingredient: async (req, res) => {
     try {
-      const existIngr = await Ingredient.findOne({ name: req.ingredient.name })
+      const ingredient = req.body
+
+      const existIngr = await Ingredient.findOne({ name: ingredient.name })
       if (existIngr) return res.status(200).json({ message: 'ingredient already exists' })
 
       const newIngr = new Ingredient({
-        name: req.ingredient.name
+        name: ingredient.name
       })
 
       await newIngr.save()
@@ -85,6 +89,32 @@ const recipeController = {
 
     } catch (e) {
       return res.status(400).json({ error: e.message, message: 'could not create ingredient' })
+    }
+  },
+  get_all_tags: async (req, res) => {
+    try {
+      const tags = await RecipeTag.find({})
+
+      return res.status(200).json(tags)
+    } catch (e) {
+      return res.status(400).json({ error: e.message, message: 'could not get tags' })
+    }
+  },
+  create_tag: async (req, res) => {
+    try {
+      console.log(req.body.tag)
+      const existTag = await RecipeTag.findOne({ label: req.body.tag })
+      if (existTag) return res.status(400).json({ message: 'tag already exists' })
+
+      const newTag = new RecipeTag({
+        label: req.body.tag
+      })
+
+      await newTag.save()
+
+      return res.status(200).json(newTag)
+    } catch (e) {
+      return res.status(400).json({ error: e.message, message: 'could not create tag' })
     }
   }
 }

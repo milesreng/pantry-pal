@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { ObjectId } = require('mongodb')
 
 const { recipeIngredientSchema } = require('./ingredient.model')
+const { recipeTagSchema } = require('./tag.model')
 
 const recipeSchema = new mongoose.Schema({
   user_id: {
@@ -23,7 +24,11 @@ const recipeSchema = new mongoose.Schema({
   public: {
     type: Boolean,
     required: true
-  }
+  },
+  tags: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'RecipeTag'
+  }]
 }, { timestamps: true })
 
 const Recipe = new mongoose.model('Recipe', recipeSchema)
