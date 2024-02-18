@@ -3,6 +3,11 @@ export interface Ingredient {
   name: string
 }
 
+export interface Tag {
+  _id: string,
+  label: string
+}
+
 export interface RecipeIngredient {
   ingredientId: string,
   qty: number,

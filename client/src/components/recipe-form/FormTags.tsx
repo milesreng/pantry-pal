@@ -1,10 +1,33 @@
 import React from 'react'
+import Select from 'react-select'
 import FormWrapper from '../FormWrapper'
 
-const FormTags = () => {
+import { OptionType } from '../../types/recipe.type'
+
+type FormTagData = {
+  tags: string[]
+  tagList: OptionType[]
+}
+
+type FormTagProps = FormTagData & {
+  updateFields: () => {}
+}
+
+const FormTags = ({ tags, tagList, updateFields }: FormTagProps) => {
+  const addTag = (tag: OptionType) => {
+    tags.push(tag)
+
+    updateFields({tags: tags})
+  }
+
   return (
     <FormWrapper title='Add Tags'>
-      <input />
+      <Select
+        isMulti
+        options={tagList}
+        value={() => {
+          
+        }} />
     </FormWrapper>
   )
 }

@@ -7,6 +7,13 @@ class ExploreService {
       headers: authHeader()
     })
   }
+
+  async getTags() {
+    return await fetch('api/recipes/tags', {
+      method: 'GET',
+      headers: authHeader()
+    })
+  }
 }
 
 export default new ExploreService()

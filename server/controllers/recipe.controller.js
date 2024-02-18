@@ -30,6 +30,7 @@ const recipeController = {
     try {
       const recipe = req.body
       const ingredients = []
+      const tags = []
 
       if (recipe.ingredients) {
 
@@ -45,11 +46,20 @@ const recipeController = {
         }
       }
 
+      if (recipe.tags) {
+        for (let tag in recipe.tags) {
+          let existTag = await RecipeTag.findOne({ label: tag })
+
+          tags.push(existTag)
+        }
+      }
+
       const newRecipe = new Recipe({
         user_id: req.userData.userId,
         title: recipe.title,
         servings: recipe.servings,
-        ingredients
+        ingredients,
+        tags
       })
 
       await newRecipe.save()

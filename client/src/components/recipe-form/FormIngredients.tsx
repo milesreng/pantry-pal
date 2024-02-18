@@ -68,18 +68,18 @@ const FormIngredients = ({ ingredientList, ingredients, updateFields }: FormIngr
     <FormWrapper title='Ingredients'>
       <>
         {ingredients.map((ingr, idx) => (
-          <div key={idx}>
+          <div key={idx} className='w-full flex gap-2'>
             {ingredientList && (
-              <Select 
+              <Select className='basis-2/3'
                 options={ingredientList} 
                 onChange={(option) => handleUpdateIngredientId(idx, option)}
                 value={ingredientList.find(option => option.value === ingr.ingredientId) || null} />
             )}
-            <input 
+            <input className='basis-1/6'
               value={ingr.qty}
               onChange={(e) => handleUpdateIngredientQty(idx, e.target.value)}
               type='number' />
-            <Select 
+            <Select className='basis-1/4'
               options={measurementList}
               value={measurementList.find(meas => meas.value === ingr.measurement || null)}
               onChange={(option) => handleUpdateIngredientMeasurement(idx, option)} />
