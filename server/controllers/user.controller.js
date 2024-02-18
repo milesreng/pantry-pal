@@ -16,9 +16,9 @@ const userController = {
 
       // confirm password strength
       // 8+ char, at least one lower/uppercase, number and symbol
-      if (!validator.isStrongPassword(user.password)) {
-        return res.status(400).json({error: 'password is too weak'})
-      }
+      // if (!validator.isStrongPassword(user.password)) {
+      //   return res.status(400).json({error: 'password is too weak'})
+      // }
 
       // confirm username format
       if (!validator.matches(user.username, '^[a-zA-Z0-9_.-]*$')) {
@@ -45,7 +45,8 @@ const userController = {
 
       await newUser.save()
 
-      return res.status(201).json({ message: 'user successfully registered' })
+      return res.status(201).json({ 
+        message: 'user successfully registered'})
     } catch (e) {
       return res.status(402).json({ error: 'user could not be created' })
     }
@@ -75,7 +76,7 @@ const userController = {
         expiresIn: '1d'
       })
 
-      res.status(200).json({ message: 'user successfully authenticated', accessToken, refreshToken, ...dbUser })
+      res.status(200).json({ accessToken, refreshToken, ...dbUser })
     } catch (e) {
       console.log(e)
       return res.status(402).json({ error: 'user authentication failed' })
