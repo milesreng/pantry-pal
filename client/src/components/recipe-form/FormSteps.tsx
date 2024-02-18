@@ -19,8 +19,10 @@ const FormSteps = ({ steps, updateFields }: FormStepsProps) => {
   }
 
   const handleDeleteStep = (idx: number) => {
-    steps.splice(idx, 1)
-    updateFields({steps: steps})
+    if (steps.length > 1) {
+      steps.splice(idx, 1)
+      updateFields({steps: steps})
+    }
   }
 
   const handleAddStep = () => {
@@ -37,9 +39,9 @@ const FormSteps = ({ steps, updateFields }: FormStepsProps) => {
             required
             onChange={(e) => handleUpdateStep(idx, e.target.value)}
             value={step} />
-          <button type='button' onClick={() => handleDeleteStep(idx)}>
+          {steps.length > 1 && (<button type='button' onClick={() => handleDeleteStep(idx)}>
             <FontAwesomeIcon icon={faTrash} />
-          </button>
+          </button>)}
         </div>
       ))}
       <button type='button' onClick={handleAddStep}>+</button>

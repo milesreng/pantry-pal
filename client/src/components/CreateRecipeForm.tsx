@@ -27,22 +27,19 @@ const INITIAL_DATA = {
 const CreateRecipeForm = () => {
   const [recipeData, setRecipeData] = useState<Recipe>(INITIAL_DATA)
 
-  const [ingredients, setIngredients] = useState<OptionType[] | null>()
-  const [recipeIngredients, setRecipeIngredients] = useState<RecipeIngredient[]>([{
-    ingredientId: '',
-    qty: 1,
-    measurement: ''
-  }])
+  const [ingredientList, setIngredientList] = useState<OptionType[] | null>()
 
   const updateFields = (fields: Partial<Recipe>) => {
     setRecipeData(prev => {
       return { ...prev, ...fields }
     })
+
+    console.log(recipeData)
   }
 
   const { steps, step, stepIdx, handleNext, handlePrev } = useMultiStepForm([
     <FormDetails {...recipeData} updateFields={updateFields} />,
-    <FormIngredients {...recipeData} updateFields={updateFields} />,
+    <FormIngredients {...recipeData} ingredientList={ingredientList} updateFields={updateFields} />,
     <FormSteps {...recipeData} updateFields={updateFields} />,
     <FormTags {...recipeData} updateFields={updateFields} />
   ])
@@ -56,7 +53,7 @@ const CreateRecipeForm = () => {
         value: ingredient._id
       }))
 
-      setIngredients(options)
+      setIngredientList(options)
     }
 
     getIngredients()
@@ -68,16 +65,7 @@ const CreateRecipeForm = () => {
   }
 
   const handleCreateRecipe = async () => {
-    if (typeof title === 'string') {
-      const recipe: Recipe = {
-        title,
-        description: description ? description : null,
-        servings,
-        ingredients: recipeIngredients
-      }
-
-      await userService.createRecipe(recipe)
-    }
+    
   }
 
   return (
