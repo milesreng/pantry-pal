@@ -16,9 +16,9 @@ const userController = {
 
       // confirm password strength
       // 8+ char, at least one lower/uppercase, number and symbol
-      // if (!validator.isStrongPassword(user.password)) {
-      //   return res.status(400).json({error: 'password is too weak'})
-      // }
+      if (!validator.isStrongPassword(user.password)) {
+        return res.status(400).json({error: 'password is too weak'})
+      }
 
       // confirm username format
       if (!validator.matches(user.username, '^[a-zA-Z0-9_.-]*$')) {
