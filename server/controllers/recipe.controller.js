@@ -59,7 +59,13 @@ const recipeController = {
     }
   },
   get_all_ingredients: async (req, res) => {
-    
+    try {
+      const ingredients = await Ingredient.find({})
+
+      return res.status(200).json(ingredients)
+    } catch (e) {
+      return res.status(400).json({ error: e.message, message: 'could not fetch ingredients'})
+    }
   },
   get_ingredients_by_category: async (req, res) => {
 

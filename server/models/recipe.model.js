@@ -19,7 +19,11 @@ const recipeSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  ingredients: [recipeIngredientSchema]
+  ingredients: [recipeIngredientSchema],
+  public: {
+    type: Boolean,
+    required: true
+  }
 }, { timestamps: true })
 
 const Recipe = new mongoose.model('Recipe', recipeSchema)
