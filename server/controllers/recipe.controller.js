@@ -121,13 +121,13 @@ const recipeController = {
   },
   create_ingredient: async (req, res) => {
     try {
-      const ingredient = req.body
+      const ingredient = req.body.ingredient
 
-      const existIngr = await Ingredient.findOne({ name: ingredient.name })
+      const existIngr = await Ingredient.findOne({ name: ingredient })
       if (existIngr) return res.status(200).json({ message: 'ingredient already exists' })
 
       const newIngr = new Ingredient({
-        name: ingredient.name
+        name: ingredient
       })
 
       await newIngr.save()

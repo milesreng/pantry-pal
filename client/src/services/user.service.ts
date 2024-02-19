@@ -25,10 +25,10 @@ class UserService {
   }
 
   async createIngredient(ingredient: string) {
-    return await fetch('/api/recipes/ingredient', {
+    return await fetch('/api/recipes/ingredients', {
       method: 'POST',
       headers: authHeader(),
-      body: JSON.stringify(ingredient)
+      body: JSON.stringify({ingredient})
     })
   }
 }
