@@ -40,23 +40,12 @@ const CreateRecipeForm = () => {
 
   const { steps, step, stepIdx, handleNext, handlePrev } = useMultiStepForm([
     <FormDetails {...recipeData} updateFields={updateFields} />,
-    <FormIngredients {...recipeData} ingredientList={ingredientList} updateFields={updateFields} />,
+    <FormIngredients {...recipeData} updateFields={updateFields} />,
     <FormSteps {...recipeData} updateFields={updateFields} />,
     <FormTags {...recipeData} tagList={tagList} updateFields={updateFields} />
   ])
 
   useEffect(() => {
-    const getIngredients = async () => {
-      const response = await exploreService.getIngredients()
-      const data: Ingredient[] = await response.json()
-      const options: OptionType[] = data.map(ingredient => ({
-        label: ingredient.name,
-        value: ingredient._id
-      }))
-
-      setIngredientList(options)
-    }
-
     const getTags = async () => {
       const response = await exploreService.getTags()
       const data: Tag[] = await response.json()
@@ -68,7 +57,6 @@ const CreateRecipeForm = () => {
       setTagList(options)
     }
 
-    getIngredients()
     getTags()
   }, [])
 
