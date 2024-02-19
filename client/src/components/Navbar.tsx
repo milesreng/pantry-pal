@@ -29,22 +29,22 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed font-header text-lg'>
+      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed font-header text-xl'>
         <div>
-          <Link to='/'>
+          <Link to='/' className='hover:text-slate-200 transition-all duration-200'>
             <FontAwesomeIcon icon={faUtensils} /> Pantry Pal
           </Link>
         </div>
         <div className='flex gap-16'>
-          <Link to='/explore'>Explore</Link>
+          <Link to='/explore' className='hover:text-slate-200 transition-all duration-200'>Explore</Link>
           {loggedIn && (
             <>
-              <Link to='/dashboard'>My Recipes</Link>
-              <Link to='/'>Shopping Lists</Link>
+              <Link to='/dashboard' className='hover:text-slate-200 transition-all duration-200'>My Recipes</Link>
+              <Link to='/' className='hover:text-slate-200 transition-all duration-200'>Shopping Lists</Link>
             </>
           )}
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-8'>
           {loggedIn && user && (
             <>
               Hi, {user.firstname}
@@ -52,12 +52,12 @@ const Navbar = () => {
           )}
           {loggedIn ? (
             <>
-              <Link to='/' onClick={logout}>Logout</Link>
+              <Link to='/' className='hover:text-slate-200 transition-all duration-200' onClick={logout}>Logout</Link>
             </>
           ) : (
             <>
-              <Link to='/login'>Login</Link>
-              <Link to='/register'>Register</Link>
+              <Link to='/login' className='hover:text-slate-200 transition-all duration-200'>Login</Link>
+              <Link to='/register' className='hover:text-slate-200 transition-all duration-200'>Register</Link>
             </>)}
         </div>
       </div>
