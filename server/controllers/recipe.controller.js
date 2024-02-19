@@ -18,31 +18,60 @@ const recipeController = {
   },
   get_user_recipes: async (req, res) => {
     try {
-      if (!req.userData.userId) return res.status(400).json({ message: 'invalid user id'})
-      const recipes = await Recipe.find({ user_id: new ObjectId(req.userData.userId)})
+      if (!req.params.uid) return res.status(400).json({ message: 'invalid user id'})
+
+      console.log('trying to get recipes')
+
+      const recipes = await Recipe.find({ user_id: req.params.uid })
 
       return res.status(200).json(recipes)
     } catch (e) {
       return res.status(404).json({ error: e.message, message: 'no recipes found' })
     }
   },
+  get_recipe_by_id: async (req, res) => {
+    try {
+      console.log('attempting to retrieve recipe')
+      const recipe = await Recipe.findById(req.params.id)
+
+      if (!recipe) return res.status(404).json({ error: e.message, message: 'no recipe found' })
+
+      if (recipe.public) return res.status(200).json(recipe)
+
+      const token = req.headers['authorization'].split(' ')[1]
+      const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+
+      if (recipe.user_id === decodedToken.userId) return res.status(200).json(recipe)
+
+      return res.status(400).json({ error: e.message, message: 'user not authorized to access recipe' })
+
+    } catch (e) {
+      return res.status(404).json({ error: e.message, message: 'no recipe found' })
+    }
+  },
   create_recipe: async (req, res) => {
     try {
       const recipe = req.body
+      console.log(recipe)
       const ingredients = []
       const tags = []
 
-      if (recipe.ingredients) {
+      if (recipe.ingredients.length == 0) return res.status(400).json({ error: 'must have at least one ingredient' })
 
-        // assume list of Ingredient IDs
-        for (let ingredient in recipe.ingredients) {
-          let ingr = await Ingredient.findById(ingredient.id)
+      // assume list of Ingredient IDs
+      for (let idx in recipe.ingredients) {
+        // console.log(`finding ingredient w/ id ${JSON.stringify(ingredient)}`)
+        const ingredient = recipe.ingredients[idx]
+        let ingr = await Ingredient.findById(ingredient.ingredientId)
 
-          if (ingr) ingredients.push({
+        if (ingr) {
+          ingredients.push({
             ingredient: ingr._id,
             quantity: ingredient.qty,
             measurement: ingredient.measurement
           })
+        } else {
+          return res.status(400).json({ error: 'attempted to add undefined ingredient' })
         }
       }
 
@@ -58,8 +87,10 @@ const recipeController = {
         user_id: req.userData.userId,
         title: recipe.title,
         servings: recipe.servings,
+        steps: recipe.steps,
         ingredients,
-        tags
+        tags,
+        public: recipe.public ? recipe.public : false
       })
 
       await newRecipe.save()

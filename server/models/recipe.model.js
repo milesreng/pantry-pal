@@ -21,6 +21,10 @@ const recipeSchema = new mongoose.Schema({
     type: String
   },
   ingredients: [recipeIngredientSchema],
+  steps: {
+    type: [String],
+    required: true
+  },
   public: {
     type: Boolean,
     required: true
