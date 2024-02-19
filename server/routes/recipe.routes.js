@@ -28,10 +28,10 @@ router.get('/tags', recipeController.get_all_tags)
 // @status  --
 router.post('/tags', recipeController.create_tag)
 
-// @route   GET api/recipes/user/:uid
+// @route   GET api/recipes/user
 // @desc    Get user recipes
 // @status  --
-router.get('/user/:uid', checkAuth, recipeController.get_user_recipes)
+router.get('/user', checkAuth, recipeController.get_user_recipes)
 
 // @route   GET api/recipes/:id
 // @desc    Get recipe by id

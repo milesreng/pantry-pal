@@ -1,4 +1,6 @@
+const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectId
+const checkAuth = require('../middleware/checkAuth')
 
 const { Ingredient } = require('../models/ingredient.model')
 const { RecipeTag } = require('../models/tag.model')
@@ -7,6 +9,7 @@ const Recipe = require('../models/recipe.model')
 const recipeController = {
   get_all_recipes: async (req, res) => {
     try {
+      console.log('attempting to retrieve all recipes')
       const recipes = await Recipe.find({})
 
       if (recipes) {
@@ -18,32 +21,35 @@ const recipeController = {
   },
   get_user_recipes: async (req, res) => {
     try {
-      if (!req.params.uid) return res.status(400).json({ message: 'invalid user id'})
+      console.log('attempting to retrieve user recipes')
 
-      console.log('trying to get recipes')
+      if (!req.userData.userId) return res.status(400).json({ message: 'invalid user id'})
 
-      const recipes = await Recipe.find({ user_id: req.params.uid })
+      const recipes = await Recipe.find({ user_id: req.userData.userId })
 
       return res.status(200).json(recipes)
     } catch (e) {
       return res.status(404).json({ error: e.message, message: 'no recipes found' })
     }
   },
-  get_recipe_by_id: async (req, res) => {
+  get_recipe_by_id: async (req, res, next) => {
     try {
-      console.log('attempting to retrieve recipe')
-      const recipe = await Recipe.findById(req.params.id)
+      const recipe = await Recipe.findById(req.params.id).lean()
 
       if (!recipe) return res.status(404).json({ error: e.message, message: 'no recipe found' })
 
+      for (let idx in recipe.ingredients) {
+        const ingr = await Ingredient.findById(recipe.ingredients[idx].ingredient)
+        recipe.ingredients[idx].name = ingr.name
+      }
+
       if (recipe.public) return res.status(200).json(recipe)
 
-      const token = req.headers['authorization'].split(' ')[1]
-      const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+      checkAuth(req, res, next)
 
-      if (recipe.user_id === decodedToken.userId) return res.status(200).json(recipe)
+      if (String(recipe.user_id) === req.userData.userId) return res.status(200).json(recipe)
 
-      return res.status(400).json({ error: e.message, message: 'user not authorized to access recipe' })
+      return res.status(400).json({ message: 'user not authorized to access recipe' })
 
     } catch (e) {
       return res.status(404).json({ error: e.message, message: 'no recipe found' })

@@ -3,22 +3,21 @@ import { Recipe } from '../types/recipe.type'
 
 class UserService {
   async getUserContent() {
-    return await fetch('api/users', {
+    return await fetch('/api/users', {
       method: 'GET',
       headers: authHeader()
     })
   }
 
-  async getUserRecipes(uid: string) {
-    console.log(`api/recipes/user/${uid}`)
-    return await fetch(`api/recipes/user/${uid}`, {
+  async getUserRecipes() {
+    return await fetch('/api/recipes/user', {
       method: 'GET',
       headers: authHeader()
     })
   }
 
   async createRecipe(recipe: Recipe) {
-    return await fetch('api/recipes', {
+    return await fetch('/api/recipes', {
       method: 'POST',
       headers: authHeader(),
       body: JSON.stringify(recipe)
@@ -26,7 +25,7 @@ class UserService {
   }
 
   async createIngredient(ingredient: string) {
-    return await fetch('api/recipes/ingredient', {
+    return await fetch('/api/recipes/ingredient', {
       method: 'POST',
       headers: authHeader(),
       body: JSON.stringify(ingredient)

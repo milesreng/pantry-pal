@@ -9,14 +9,14 @@ class ExploreService {
   }
 
   async getTags() {
-    return await fetch('api/recipes/tags', {
+    return await fetch('/api/recipes/tags', {
       method: 'GET',
       headers: authHeader()
     })
   }
 
   async getRecipe(id: string) {
-    return await fetch(`api/recipes/${id}`, {
+    return await fetch(`/api/recipes/${id}`, {
       method: 'GET',
       headers: authHeader()
     })
