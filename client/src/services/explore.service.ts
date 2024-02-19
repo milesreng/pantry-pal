@@ -14,6 +14,13 @@ class ExploreService {
       headers: authHeader()
     })
   }
+
+  async getRecipe(id: string) {
+    return await fetch(`api/recipes/${id}`, {
+      method: 'GET',
+      headers: authHeader()
+    })
+  }
 }
 
 export default new ExploreService()

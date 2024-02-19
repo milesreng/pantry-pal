@@ -9,8 +9,9 @@ class UserService {
     })
   }
 
-  async getUserRecipes() {
-    return await fetch('api/recipes', {
+  async getUserRecipes(uid: string) {
+    console.log(`api/recipes/user/${uid}`)
+    return await fetch(`api/recipes/user/${uid}`, {
       method: 'GET',
       headers: authHeader()
     })
