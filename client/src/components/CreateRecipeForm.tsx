@@ -77,8 +77,10 @@ const CreateRecipeForm = () => {
     handleNext()
   }
 
-  const handleCreateRecipe = async () => {
-    
+  const handleCreateRecipe = async (e: FormEvent) => {
+    e.preventDefault()
+    // console.log(recipeData)
+    await userService.createRecipe(recipeData)
   }
 
   return (
@@ -102,6 +104,7 @@ const CreateRecipeForm = () => {
             </button>
           ) : (
             <button className='bg-slate-600 hover:bg-slate-700 text-white py-1 px-2 rounded-md'
+              onClick={handleCreateRecipe}
               type='submit'>
                 submit
             </button>

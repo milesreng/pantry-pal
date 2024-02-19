@@ -13,6 +13,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Explore from './pages/Explore'
 import CreateRecipe from './pages/CreateRecipe'
+import RecipeDetails from './pages/RecipeDetails'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/explore' element={<Explore />} />
       <Route path='/create-recipe' element= {<CreateRecipe />} />
+      <Route path='/recipe/:id' element={<RecipeDetails />} />
     </Route>
   )
 )

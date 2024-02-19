@@ -15,6 +15,7 @@ export interface RecipeIngredient {
 }
 
 export interface Recipe {
+  _id: string | null,
   title: string,
   description: string | null,
   servings: number,

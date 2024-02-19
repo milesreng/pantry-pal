@@ -20,8 +20,6 @@ const Navbar = () => {
   const fetchUser = async () => {
     const response = await UserService.getUserContent()
 
-    console.log(response)
-
     if (response && response.ok) {
       setUser(await response.json())
     } else {
