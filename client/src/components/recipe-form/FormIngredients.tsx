@@ -31,7 +31,7 @@ const measurementList = [{
 
 const FormIngredients = ({ ingredientList, ingredients, updateFields }: FormIngredientsProps) => {
   const handleUpdateIngredientId = (idx: number, option: OptionType | null) => {
-    ingredients[idx].ingredientId = option ? option.value : ''
+    ingredients[idx].ingredient = option ? option.value : ''
 
     updateFields({ ingredients: ingredients })
   }
@@ -50,7 +50,7 @@ const FormIngredients = ({ ingredientList, ingredients, updateFields }: FormIngr
 
   const handleAddIngredient = () => {
     ingredients.push({
-      ingredientId: '',
+      ingredient: '',
       qty: 1,
       measurement: ''
     })
@@ -73,7 +73,7 @@ const FormIngredients = ({ ingredientList, ingredients, updateFields }: FormIngr
               <Select className='basis-2/3'
                 options={ingredientList} 
                 onChange={(option) => handleUpdateIngredientId(idx, option)}
-                value={ingredientList.find(option => option.value === ingr.ingredientId) || null} />
+                value={ingredientList.find(option => option.value === ingr.ingredient) || null} />
             )}
             <input className='basis-1/6'
               value={ingr.qty}

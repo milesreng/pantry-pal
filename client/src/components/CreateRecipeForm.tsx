@@ -15,8 +15,8 @@ const INITIAL_DATA = {
   servings: 1,
   description: '',
   ingredients: [{
-    ingredientId: '',
-    qty: 1,
+    ingredient: '',
+    qty: '1',
     measurement: ''
   }],
   steps: [''],

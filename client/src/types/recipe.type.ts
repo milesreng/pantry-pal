@@ -9,17 +9,34 @@ export interface Tag {
 }
 
 export interface RecipeIngredient {
-  ingredientId: string,
+  ingredient: string,
   qty: number,
   measurement: string
 }
 
+export interface RecipeIngredientDetails {
+  ingredient: string,
+  name: string,
+  quantity: number,
+  measurement: string
+}
+
 export interface Recipe {
-  _id: string | null,
   title: string,
   description: string | null,
   servings: number,
   ingredients: RecipeIngredient[] | [],
+  steps: string[],
+  tags: string[],
+  public: boolean
+}
+
+export interface RecipeDetailsType {
+  _id: string,
+  title: string,
+  description: string | null,
+  servings: number,
+  ingredients: RecipeIngredientDetails[] | [],
   steps: string[],
   tags: string[],
   public: boolean

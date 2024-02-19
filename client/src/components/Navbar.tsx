@@ -52,7 +52,7 @@ const Navbar = () => {
           )}
           {loggedIn ? (
             <>
-              <Link to='/' onClick={() => logout()}>Logout</Link>
+              <Link to='/' onClick={logout}>Logout</Link>
             </>
           ) : (
             <>

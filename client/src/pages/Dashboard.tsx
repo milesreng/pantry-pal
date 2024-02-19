@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
 
 import { Recipe } from '../types/recipe.type'
 
 const Dashboard = () => {
+  const { loggedIn } = useAuth()
+
   const [user, setUser] = useState<User | null>()
   const [recipes, setRecipes] = useState<Recipe[] | null>()
 
   useEffect(() => {
-    if (localStorage.accessToken) {
+    if (loggedIn) {
       fetchUser()
       fetchRecipes()
     }
-  }, [localStorage.accessToken])
+  }, [loggedIn])
 
   const fetchUser = async () => {
     const response = await UserService.getUserContent()
@@ -27,11 +30,11 @@ const Dashboard = () => {
   }
 
   const fetchRecipes = async () => {
-    if (!user) return
-    const response = await UserService.getUserRecipes(user._id)
+    const response = await UserService.getUserRecipes()
+    const data = await response.json()
 
     if (response && response.ok) {
-      setRecipes(await response.json())
+      setRecipes(data)
     } else {
       setRecipes([])
     }
