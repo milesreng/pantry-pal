@@ -10,7 +10,7 @@ const recipeController = {
   get_all_recipes: async (req, res) => {
     try {
       console.log('attempting to retrieve all recipes')
-      const recipes = await Recipe.find({})
+      const recipes = await Recipe.find({ public: true })
 
       if (recipes) {
         return res.status(200).json(recipes)
