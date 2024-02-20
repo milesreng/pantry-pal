@@ -121,6 +121,33 @@ const userController = {
     } catch (e) {
       return res.status(404).json({ error: 'could not retrieve user data' })
     }
+  },
+  updateUser: async (req, res) => {
+    try {
+      const newUser = req.body
+      const dbUser = await User.findById(req.userData.userId)
+
+      if (!dbUser) return res.status(404).json({ error: 'could not find user' })
+
+      if (newUser.firstname) dbUser.firstname = newUser.firstname
+      if (newUser.lastname) dbUser.lastname = newUser.lastname
+      if (newUser.email) {
+        // check for duplicate
+        dbUser.email = newUser.email
+      }
+
+      if (newUser.username) {
+        // check for duplicate
+        dbUser.username = newUser.username
+      }
+
+      await dbUser.save()
+
+      return res.status(200).json({ message: 'updated user details' })
+      
+    } catch (e) {
+      return res.status(400).json({ error: 'could not update user data' })
+    }
   }
 }
 

@@ -8,4 +8,9 @@ const userController = require('../controllers/user.controller')
 // @status  --
 router.get('/', checkAuth, userController.getUser)
 
+// @route   PUT api/users/
+// @desc    Update user data
+// @status  --
+router.put('/', checkAuth, userController.getUser)
+
 module.exports = router
