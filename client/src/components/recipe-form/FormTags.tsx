@@ -7,14 +7,15 @@ import exploreService from '../../services/explore.service'
 import { OptionType, Tag } from '../../types/recipe.type'
 
 type FormTagData = {
-  tags: string[]
+  tags: string[],
+  errorMessage: string | null
 }
 
 type FormTagProps = FormTagData & {
   updateFields: (fields: Partial<FormTagData>) => void
 }
 
-const FormTags = ({ tags, updateFields }: FormTagProps) => {
+const FormTags = ({ tags, errorMessage, updateFields }: FormTagProps) => {
   const [tagList, setTagList] = useState<OptionType[]>([])
   const [selectedTags, setSelectedTags] = useState<OptionType[]>([])
 
@@ -45,6 +46,9 @@ const FormTags = ({ tags, updateFields }: FormTagProps) => {
 
   return (
     <FormWrapper title='Add Tags'>
+      {errorMessage && (
+        <p>errorMessage</p>
+      )}
       {tagList && (<Select
         isMulti
         onChange={handleUpdateTags}

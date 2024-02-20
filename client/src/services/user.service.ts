@@ -11,7 +11,8 @@ class UserService {
 
     if (response.ok) return response
 
-    if (await authService.tryRefresh(response)) this.getUserContent()
+    await authService.tryRefresh(response)
+    this.getUserContent()
   }
 
   async getUserRecipes() {
@@ -22,7 +23,8 @@ class UserService {
 
     if (response.ok) return response
 
-    if (await authService.tryRefresh(response)) this.getUserRecipes()
+    await authService.tryRefresh(response)
+    this.getUserRecipes()
   }
 
   async createRecipe(recipe: Recipe) {
@@ -34,7 +36,17 @@ class UserService {
 
     if (response.ok) return response
 
-    if (await authService.tryRefresh(response)) this.createRecipe(recipe)
+    if (await authService.tryRefresh(response)) {
+      const response = await fetch('/api/recipes', {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(recipe)
+      })
+
+      return response
+    } else {
+      return response
+    }
   }
 
   async createIngredient(ingredient: string) {
@@ -46,7 +58,8 @@ class UserService {
 
     if (response.ok) return response
 
-    if (await authService.tryRefresh(response)) this.createIngredient(ingredient)
+    await authService.tryRefresh(response) 
+    this.createIngredient(ingredient)
   }
 }
 

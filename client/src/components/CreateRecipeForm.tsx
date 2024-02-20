@@ -30,6 +30,7 @@ const CreateRecipeForm = () => {
   const navigate = useNavigate()
 
   const [recipeData, setRecipeData] = useState<Recipe>(INITIAL_DATA)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const updateFields = (fields: Partial<Recipe>) => {
     setRecipeData(prev => {
@@ -43,7 +44,7 @@ const CreateRecipeForm = () => {
     <FormDetails {...recipeData} updateFields={updateFields} />,
     <FormIngredients {...recipeData} updateFields={updateFields} />,
     <FormSteps {...recipeData} updateFields={updateFields} />,
-    <FormTags {...recipeData} updateFields={updateFields} />
+    <FormTags {...recipeData} errorMessage={errorMessage} updateFields={updateFields} />
   ])
 
   const handleFormSubmit = (e: FormEvent) => {
@@ -60,6 +61,7 @@ const CreateRecipeForm = () => {
     if (response.ok) {
       navigate(`/recipe/${data._id}`)
     } else {
+      setErrorMessage(data.error) 
       console.log(data)
     }
   }

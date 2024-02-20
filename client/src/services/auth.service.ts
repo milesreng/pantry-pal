@@ -37,7 +37,10 @@ class AuthService {
         }
       })
 
-      if (!response.ok) return { message: 'token refresh failed' }
+      if (!response.ok) {
+        this.logout()
+        return false
+      }
 
       const data = await response.json()
 
@@ -45,10 +48,10 @@ class AuthService {
       localStorage.setItem('accessToken', data.accessToken)
       localStorage.setItem('refreshToken', data.refreshToken)
 
-      return response
+      return true
     } catch (e: unknown) {
       if (e instanceof Error) console.error(e.message)
-      return
+      return false
     }
   }
 
