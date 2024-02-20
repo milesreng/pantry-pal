@@ -32,9 +32,9 @@ const Dashboard = () => {
 
   const fetchRecipes = async () => {
     const response = await UserService.getUserRecipes()
-    const data = await response.json()
 
     if (response && response.ok) {
+      const data = await response.json()
       setRecipes(data)
     } else {
       setRecipes([])

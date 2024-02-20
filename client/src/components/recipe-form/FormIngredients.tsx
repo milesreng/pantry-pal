@@ -103,7 +103,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
 
     const response = await userService.createIngredient(createIngredient)
 
-    if (response.ok) {
+    if (response && response.ok) {
       setShowModal(false)
       setCreateIngredient('')
       await getIngredients()
