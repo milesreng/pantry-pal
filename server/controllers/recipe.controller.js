@@ -68,7 +68,7 @@ const recipeController = {
       for (let idx in recipe.ingredients) {
         // console.log(`finding ingredient w/ id ${JSON.stringify(ingredient)}`)
         const ingredient = recipe.ingredients[idx]
-        let ingr = await Ingredient.findById(ingredient.ingredientId)
+        let ingr = await Ingredient.findById(ingredient.ingredient)
 
         if (ingr) {
           ingredients.push({
@@ -82,8 +82,8 @@ const recipeController = {
       }
 
       if (recipe.tags) {
-        for (let tag in recipe.tags) {
-          let existTag = await RecipeTag.findOne({ label: tag })
+        for (let idx in recipe.tags) {
+          let existTag = await RecipeTag.findById(recipe.tags[idx])
 
           tags.push(existTag)
         }
@@ -101,7 +101,7 @@ const recipeController = {
 
       await newRecipe.save()
 
-      return res.status(200).json({ message: 'successfully saved recipe', newRecipe })
+      return res.status(200).json({ message: 'successfully saved recipe', ...newRecipe })
       
     } catch (e) {
       return res.status(400).json({ error: e.message, message: 'could not create recipe'})
