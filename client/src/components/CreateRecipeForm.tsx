@@ -1,14 +1,16 @@
-import React, { useState, useEffect, FormEvent } from 'react'
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, FormEvent } from 'react'
+import { useNavigate } from 'react-router'
 import { useMultiStepForm } from '../hooks/useMultiStepForm'
 import userService from '../services/user.service'
-import exploreService from '../services/explore.service'
 
 import FormDetails from './recipe-form/FormDetails'
 import FormIngredients from './recipe-form/FormIngredients'
 import FormSteps from './recipe-form/FormSteps'
 import FormTags from './recipe-form/FormTags'
 
-import { Recipe, Ingredient, RecipeIngredient, Tag, OptionType } from '../types/recipe.type'
+import { Recipe } from '../types/recipe.type'
 
 const INITIAL_DATA = {
   title: '',
@@ -25,10 +27,9 @@ const INITIAL_DATA = {
 }
 
 const CreateRecipeForm = () => {
-  const [recipeData, setRecipeData] = useState<Recipe>(INITIAL_DATA)
+  const navigate = useNavigate()
 
-  const [ingredientList, setIngredientList] = useState<OptionType[] | null>()
-  const [tagList, setTagList] = useState<OptionType[] | null>()
+  const [recipeData, setRecipeData] = useState<Recipe>(INITIAL_DATA)
 
   const updateFields = (fields: Partial<Recipe>) => {
     setRecipeData(prev => {
@@ -42,23 +43,8 @@ const CreateRecipeForm = () => {
     <FormDetails {...recipeData} updateFields={updateFields} />,
     <FormIngredients {...recipeData} updateFields={updateFields} />,
     <FormSteps {...recipeData} updateFields={updateFields} />,
-    <FormTags {...recipeData} tagList={tagList} updateFields={updateFields} />
+    <FormTags {...recipeData} updateFields={updateFields} />
   ])
-
-  useEffect(() => {
-    const getTags = async () => {
-      const response = await exploreService.getTags()
-      const data: Tag[] = await response.json()
-      const options: OptionType[] = data.map(ingredient => ({
-        label: ingredient.label,
-        value: ingredient._id
-      }))
-
-      setTagList(options)
-    }
-
-    getTags()
-  }, [])
 
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -68,7 +54,14 @@ const CreateRecipeForm = () => {
   const handleCreateRecipe = async (e: FormEvent) => {
     e.preventDefault()
     // console.log(recipeData)
-    await userService.createRecipe(recipeData)
+    const response = await userService.createRecipe(recipeData)
+    const data = await response.json()
+
+    if (response.ok) {
+      navigate(`/recipe/${data._id}`)
+    } else {
+      console.log(data)
+    }
   }
 
   return (

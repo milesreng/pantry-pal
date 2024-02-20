@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
@@ -39,8 +40,8 @@ const Navbar = () => {
           <Link to='/explore' className='hover:text-slate-200 transition-all duration-200'>Explore</Link>
           {loggedIn && (
             <>
-              <Link to='/dashboard' className='hover:text-slate-200 transition-all duration-200'>My Recipes</Link>
-              <Link to='/' className='hover:text-slate-200 transition-all duration-200'>Shopping Lists</Link>
+              <Link to='/dashboard' className='hover:text-slate-200 transition-all duration-200'>Create A Recipe</Link>
+              {/* <Link to='/' className='hover:text-slate-200 transition-all duration-200'>Shopping Lists</Link> */}
             </>
           )}
         </div>

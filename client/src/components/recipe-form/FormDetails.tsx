@@ -1,10 +1,10 @@
-import React from 'react'
+/* eslint-disable react/react-in-jsx-scope */
 import FormWrapper from '../FormWrapper'
 
 type FormDetailsData = {
   title: string,
-  servings: string,
-  description: string
+  servings: number,
+  description: string | null
 }
 
 type FormDetailsProps = FormDetailsData & {
@@ -29,14 +29,14 @@ const FormDetails = ({ title, servings, description, updateFields }: FormDetails
           name='servings' 
           type='number'
           value={servings}
-          onChange={(e) => updateFields({ servings: e.target.value })}
+          onChange={(e) => updateFields({ servings: e.target.value as unknown as number })}
           required />
       </div>
       <div className='flex justify-between w-full'>
         <label className='w-1/4' htmlFor='description'>Description</label>
         <textarea className='w-3/4'
           name='description'
-          value={description}
+          value={description || ''}
           onChange={(e) => updateFields({ description: e.target.value })} />
       </div>
     </FormWrapper>

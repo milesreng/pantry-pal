@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable react/react-in-jsx-scope */
 import FormWrapper from '../FormWrapper'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

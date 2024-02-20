@@ -1,10 +1,5 @@
-import React from 'react'
+/* eslint-disable react/react-in-jsx-scope */
 
-type RecipeCardProps = {
-  title: string,
-  servings: number,
-  tags: string[]
-}
 
 const RecipeCard = () => {
   return (

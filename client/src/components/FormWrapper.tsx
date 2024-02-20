@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+import { ReactNode } from 'react'
 
 type FormWrapperProps = {
   title: string,

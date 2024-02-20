@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+
+import { useState, useEffect } from 'react'
 import Select from 'react-select'
-import { Modal } from 'flowbite-react'
 import { OptionType, RecipeIngredient, Ingredient } from '../../types/recipe.type'
 import FormWrapper from '../FormWrapper'
 import exploreService from '../../services/explore.service'
 import userService from '../../services/user.service'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faX } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 
 type FormIngredientsData = {
@@ -62,7 +63,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
   }
 
   const handleUpdateIngredientQty = (idx: number, qty: string) => {
-    ingredients[idx].qty = qty as unknown as number
+    ingredients[idx].qty = qty
 
     updateFields({ ingredients: ingredients })
   }
@@ -76,7 +77,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
   const handleAddIngredient = () => {
     ingredients.push({
       ingredient: '',
-      qty: 1,
+      qty: '1',
       measurement: ''
     })
 
@@ -104,6 +105,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
 
     if (response.ok) {
       setShowModal(false)
+      setCreateIngredient('')
       await getIngredients()
     } else {
       setIngredientError('Could not create ingredient.')
@@ -143,7 +145,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
         </button>
         <span>
           <span>Can&apos;t find an ingredient? </span>
-          <button type='button' onClick={() => setShowModal(true)} className='underline'>Add one now.</button>
+          <button type='button' onClick={() => setShowModal(true)} className='underline'>Add it now.</button>
         </span> 
       </>
       {showModal ? (
