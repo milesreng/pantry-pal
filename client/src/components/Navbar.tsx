@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
-import LogoutModal from './LogoutModal'
 
 import { useAuth } from '../context/AuthContext'
 
