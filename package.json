@@ -1,0 +1,17 @@
+{
+  "name": "pantry-pal",
+  "version": "1.0.0",
+  "description": "## User Stories - Authenticate securely - Create, view, edit, and delete recipes, with details such as name, cuisine, cook time, ingredients, and serving size - Use recipes to create shopping lists, where users can select recipes and adjust serving sizes to get accurate amounts of ingredients - Explore recipes created by other users, with filters such as cuisine, diet type, meal type, rating, and popularity - Rate and comment on recipes uploaded by other users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-server": "cd server && npm install",
+    "start-server": "cd server && node index.js",
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "start-client": "cd client && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
