@@ -7,6 +7,11 @@ const userController = require('../controllers/user.controller')
 // @status  Functional
 router.post('/login', userController.login)
 
+// @route   GET api/auth/refresh
+// @desc    Refresh user token
+// @status  Functional
+router.get('/refresh', userController.refresh)
+
 // @route   POST api/auth/register
 // @desc    Register new user
 // @status  Functional

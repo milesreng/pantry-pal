@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
 import LogoutModal from './LogoutModal'
@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUtensils } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+
   const { loggedIn, logout } = useAuth()
 
   const [showDropdown, setShowDropdown] = useState(false)
@@ -28,6 +30,11 @@ const Navbar = () => {
     } else {
       setUser(null)
     }
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
   }
 
   return (
@@ -65,7 +72,7 @@ const Navbar = () => {
                 <div className='absolute flex flex-col bg-slate-200 text-slate-900 mt-8 px-2 rounded-sm text-right'>
                   <span className='py-1 pl-4'>Profile</span>
                   <span className='py-1 pl-4'>Settings</span>
-                  <span className='py-1'>Log out</span>
+                  <span className='py-1' onClick={handleLogout}>Log out</span>
                 </div>
               )}
             </>

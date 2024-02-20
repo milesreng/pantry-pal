@@ -1,35 +1,52 @@
 import authHeader from './auth-header'
 import { Recipe } from '../types/recipe.type'
+import authService from './auth.service'
 
 class UserService {
   async getUserContent() {
-    return await fetch('/api/users', {
+    const response = await fetch('/api/users', {
       method: 'GET',
       headers: authHeader()
     })
+
+    if (response.ok) return response
+
+    if (await authService.tryRefresh(response)) this.getUserContent()
   }
 
   async getUserRecipes() {
-    return await fetch('/api/recipes/user', {
+    const response = await fetch('/api/recipes/user', {
       method: 'GET',
       headers: authHeader()
     })
+
+    if (response.ok) return response
+
+    if (await authService.tryRefresh(response)) this.getUserRecipes()
   }
 
   async createRecipe(recipe: Recipe) {
-    return await fetch('/api/recipes', {
+    const response = await fetch('/api/recipes', {
       method: 'POST',
       headers: authHeader(),
       body: JSON.stringify(recipe)
     })
+
+    if (response.ok) return response
+
+    if (await authService.tryRefresh(response)) this.createRecipe(recipe)
   }
 
   async createIngredient(ingredient: string) {
-    return await fetch('/api/recipes/ingredients', {
+    const response = await fetch('/api/recipes/ingredients', {
       method: 'POST',
       headers: authHeader(),
       body: JSON.stringify({ingredient})
     })
+
+    if (response.ok) return response
+
+    if (await authService.tryRefresh(response)) this.createIngredient(ingredient)
   }
 }
 

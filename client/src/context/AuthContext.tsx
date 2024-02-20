@@ -25,6 +25,9 @@ export const AuthProvider = ({children}: Props) => {
   }
   const logout = () => {
     setLoggedIn(false)
+    
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
   }
 
   return (

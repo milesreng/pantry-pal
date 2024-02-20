@@ -4,9 +4,9 @@ export default function authHeader() {
   if (token) {
     return { 
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      'x-access-token': token
     }
   }
 
-  return { 'Content-Type': 'application/json', Authorization: '' }
+  return { 'Content-Type': 'application/json', 'x-access-token': '' }
 }

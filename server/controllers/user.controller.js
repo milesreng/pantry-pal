@@ -82,6 +82,33 @@ const userController = {
       return res.status(402).json({ error: 'user authentication failed' })
     }
   },
+  refresh: async (req, res) => {
+    try {
+      const token = req.headers['x-refresh-token']
+
+      jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) throw err
+
+        const userId = decoded.userId
+        const email = decoded.email
+        
+        const accessToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
+          expiresIn: '1h'
+        })
+  
+        const refreshToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
+          expiresIn: '1d'
+        })
+
+        return res.status(200).json({ accessToken, refreshToken })
+      })
+
+      
+    } catch (e) {
+      console.log(e)
+      return res.status(402).json({ error: 'token refresh failed' })
+    }
+  },
   getUser: async (req, res) => {
     try {
       const dbUser = await User.findOne({ email: req.userData.email })
