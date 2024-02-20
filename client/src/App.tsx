@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard'
 import Explore from './pages/Explore'
 import CreateRecipe from './pages/CreateRecipe'
 import RecipeDetails from './pages/RecipeDetails'
+import Profile from './pages/Profile'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/profile' element={<Profile />} />
       <Route path='/explore' element={<Explore />} />
       <Route path='/create-recipe' element= {<CreateRecipe />} />
       <Route path='/recipe/:id' element={<RecipeDetails />} />

@@ -61,6 +61,10 @@ class UserService {
     await authService.tryRefresh(response) 
     this.createIngredient(ingredient)
   }
+
+  async updateUserData(username: string, firstname: string, lastname: string, email: string) {
+    
+  }
 }
 
 export default new UserService()

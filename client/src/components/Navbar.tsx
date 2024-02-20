@@ -25,7 +25,8 @@ const Navbar = () => {
     const response = await UserService.getUserContent()
 
     if (response && response.ok) {
-      setUser(await response.json())
+      const data = await response.json()
+      setUser(data)
     } else {
       setUser(null)
     }
@@ -69,7 +70,7 @@ const Navbar = () => {
                 }}}>Account</button>
               {showDropdown && (
                 <div className='absolute flex flex-col bg-slate-200 text-slate-900 mt-8 px-2 rounded-sm text-right'>
-                  <span className='py-1 pl-4'>Profile</span>
+                  <span className='py-1 pl-4'><Link to='/profile'>Profile</Link></span>
                   <span className='py-1 pl-4'>Settings</span>
                   <span className='py-1' onClick={handleLogout}>Log out</span>
                 </div>
