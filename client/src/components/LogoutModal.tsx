@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import authService from '../services/auth.service'
 
-const LogoutButton = () => {
+const LogoutModal = () => {
   return (
     <button onClick={authService.logout}>
       Logout
@@ -9,4 +9,4 @@ const LogoutButton = () => {
   )
 }
 
-export default LogoutButton
+export default LogoutModal

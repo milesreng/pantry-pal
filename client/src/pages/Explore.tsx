@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useState, useEffect } from "react"
-import exploreService from "../services/explore.service"
+import { useState, useEffect } from 'react'
+import exploreService from '../services/explore.service'
 
-import { RecipeDetailsType } from "../types/recipe.type"
+import { RecipeDetailsType } from '../types/recipe.type'
 
 const Explore = () => {
   const [recipes, setRecipes] = useState<RecipeDetailsType[]>([])
@@ -32,11 +32,13 @@ const Explore = () => {
       { (recipes.length > 0) ? (
         <div className='text-2xl p-12'>
           Recipes
-          { recipes.map((recipe, idx) => (
-            <div key={idx}>
-              { recipe.title}
-            </div>
-          ))}
+          <div className='text-lg'>
+            { recipes.map((recipe, idx) => (
+              <div key={idx}>
+                { recipe.title}
+              </div>
+            ))}
+          </div>
         </div>
       ) : ( loading ? (
         <div className='text-2xl p-12'>

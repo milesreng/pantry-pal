@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'header': ['Antonio', 'sans'],
-        'content': ['Lato', 'sans']
+        'header': ['Work Sans', 'sans'],
+        'content': ['Merriweather', 'sans']
       }
     },
   },
