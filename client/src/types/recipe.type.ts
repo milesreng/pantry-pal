@@ -10,7 +10,7 @@ export interface Tag {
 
 export interface RecipeIngredient {
   ingredient: string,
-  qty: number,
+  qty: string,
   measurement: string
 }
 

@@ -1,20 +1,27 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
+import authService from '../services/auth.service'
 
 const Register = () => {
-  const [email, setEmail] = useState<string | null>()
-  const [username, setUsername] = useState<string | null>()
-  const [first, setFirst] = useState<string | null>()
-  const [password, setPassword] = useState<string | null>()
-  const [confirmPassword, setConfirmPassword] = useState<string | null>()
+  const navigate = useNavigate()
+  
+  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [first, setFirst] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [passwordMatch, setPasswordMatch] = useState<boolean>(true)
 
   const handleRegister = async () => {
-    
+    const response = await authService.register(username, first, email, password)
+
+    if (response.ok) {
+      navigate('/login')
+    }
   }
 
   return (

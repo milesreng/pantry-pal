@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import validator from 'validator'
 

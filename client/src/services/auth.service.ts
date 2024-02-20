@@ -24,21 +24,13 @@ class AuthService {
   logout() { localStorage.removeItem('accessToken') }
 
   async register(username: string, first: string, email: string, password: string) {
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({username, first, email, password})
-      })
-
-      if (!res.ok) return false
-
-      return true
-    } catch (e: unknown) {
-      if (e instanceof Error) console.error(e.message)
-    }
+    return await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({username, first, email, password})
+    })
   }
 }
 

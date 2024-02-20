@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+
+import { createContext, useContext, useState, ReactNode } from 'react'
 
 interface Props {
   children?: ReactNode

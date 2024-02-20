@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable react/react-in-jsx-scope */
 import CreateRecipeForm from '../components/CreateRecipeForm'
 
 const CreateRecipe = () => {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import exploreService from '../services/explore.service'
 import { RecipeDetailsType } from '../types/recipe.type'
