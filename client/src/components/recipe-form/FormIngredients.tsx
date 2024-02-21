@@ -34,6 +34,9 @@ const measurementList = [{
 }, {
   label: 'package',
   value: 'package'
+}, {
+  label: 'unit',
+  value: 'unit'
 },]
 
 const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) => {

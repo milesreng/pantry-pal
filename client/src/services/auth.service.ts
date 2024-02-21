@@ -60,13 +60,13 @@ class AuthService {
     localStorage.removeItem('refreshToken')
   }
 
-  async register(username: string, first: string, email: string, password: string) {
+  async register(username: string, first: string, last: string, email: string, password: string) {
     return await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({username, first, email, password})
+      body: JSON.stringify({username, first, last, email, password})
     })
   }
 }

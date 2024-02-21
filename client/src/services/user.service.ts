@@ -62,7 +62,16 @@ class UserService {
     this.createIngredient(ingredient)
   }
 
-  async updateUserData(username: string, firstname: string, lastname: string, email: string) {
+  async updateUserData(username: string, first: string, last: string, email: string) {
+    const response = await fetch('/api/users', {
+      method: 'PUT',
+      headers: authHeader(),
+      body: JSON.stringify({ username, first, last, email })
+    })
+
+    if (response.ok) return response
+
+    await authService.tryRefresh(response) 
     
   }
 }

@@ -59,7 +59,7 @@ const CreateRecipeForm = () => {
     const data = await response.json()
 
     if (response.ok) {
-      navigate(`/recipe/${data._id}`)
+      navigate(`/recipe/${data.recipeId}`)
     } else {
       setErrorMessage(data.error) 
       console.log(data)

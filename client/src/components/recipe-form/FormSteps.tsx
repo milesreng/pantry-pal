@@ -3,6 +3,7 @@ import FormWrapper from '../FormWrapper'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 
 type FormStepsData = {
   steps: string[]
@@ -40,11 +41,13 @@ const FormSteps = ({ steps, updateFields }: FormStepsProps) => {
             onChange={(e) => handleUpdateStep(idx, e.target.value)}
             value={step} />
           {steps.length > 1 && (<button type='button' onClick={() => handleDeleteStep(idx)}>
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrash} className='hover:text-[#c91c1c] duration-200 transition-all' />
           </button>)}
         </div>
       ))}
-      <button type='button' onClick={handleAddStep}>+</button>
+      <button type='button' onClick={handleAddStep}>
+        <FontAwesomeIcon icon={faSquarePlus} className='text-2xl hover:text-[#32a850] duration-200 transition-all' />
+      </button>
     </FormWrapper>
   )
 }

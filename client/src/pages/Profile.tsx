@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect } from 'react'
 import userService from '../services/user.service'
 import { User } from '../types/user.type'
 import { useNavigate } from 'react-router'
@@ -11,28 +11,33 @@ const Profile = () => {
   const [showEdit, setShowEdit] = useState(false)
 
   useEffect(() => {
-    const getUser = async () => {
-      const res = await userService.getUserContent()
-
-      if (res && res.ok) {
-        const data = await res.json()
-        setUser(data)
-      } else {
-        navigate('/')
-      }
-    }
 
     getUser()
   }, [])
 
-  const handleSaveChanges = async (e: FormEvent) => {
-    e.preventDefault()
-    try {
-      const res = await userService.updateUserContent(e.username)
-    } catch (err: unknown) {
-      
+  const getUser = async () => {
+    const res = await userService.getUserContent()
+
+    if (res && res.ok) {
+      const data = await res.json()
+      setUser(data)
+    } else {
+      navigate('/')
     }
   }
+
+  // const handleSaveChanges = async (e: FormEvent) => {
+  //   e.preventDefault()
+  //   try {
+  //     const res = await userService.updateUserData()
+
+  //     setShowEdit(false)
+  //     await getUser()
+
+  //   } catch (err: unknown) {
+      
+  //   }
+  // }
 
   return (
     <div className='w-full min-h-screen px-4'>
@@ -43,13 +48,13 @@ const Profile = () => {
             <p className='text-center py-24'>profile pic goes here</p>
           </div>
           {user && (showEdit ? (
-            <form className='flex flex-col gap-2' onSubmit={handleSaveChanges}>
+            <form className='flex flex-col gap-2'>
               <input name='username' type="text" />
               <span>{user.email}</span>
               <span>{user.firstname}</span>
               {user.lastname && (<span>{user.lastname}</span>)}
               <span>Member since {user.createdAt}</span>
-              <span onClick={handleSaveChanges}>save</span>
+              {/* <span onClick={handleSaveChanges}>save</span> */}
             </form>
           ) : (
             <div className='flex flex-col gap-2'>

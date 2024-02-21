@@ -16,6 +16,7 @@ const Navbar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [user, setUser] = useState<User | null>(null)
+  const [showConfirmLoggedOut, setShowConfirmLoggedOut] = useState(false)
 
   useEffect(() => {
     if (loggedIn) fetchUser()
@@ -33,6 +34,7 @@ const Navbar = () => {
   }
 
   const handleLogout = () => {
+    setShowConfirmLoggedOut(false)
     logout()
     navigate('/')
   }
@@ -67,12 +69,17 @@ const Navbar = () => {
                   setShowDropdown(false)
                 } else {
                   setShowDropdown(true)
-                }}}>Account</button>
+                }}}>{user.firstname}</button>
               {showDropdown && (
-                <div className='absolute flex flex-col bg-slate-200 text-slate-900 mt-8 px-2 rounded-sm text-right'>
-                  <span className='py-1 pl-4'><Link to='/profile'>Profile</Link></span>
-                  <span className='py-1 pl-4'>Settings</span>
-                  <span className='py-1' onClick={handleLogout}>Log out</span>
+                <div className='absolute flex flex-col bg-slate-200 text-slate-900 mt-8 px-2 pb-2 rounded-sm text-center w-1/6'>
+                  <div className='rounded-full aspect-square w-5/6 md:w-1/3 mx-auto bg-slate-300 mt-8 mb-4'>
+
+                  </div>
+                  <span>{user.firstname} {user.lastname}</span>
+                  <span className='mb-4'>Logged in as <br /> {user.email} </span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200'><Link to='/profile'>Profile</Link></span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200'>Settings</span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-200' onClick={() => setShowConfirmLoggedOut(true)}>Log out</span>
                 </div>
               )}
             </>
@@ -86,7 +93,35 @@ const Navbar = () => {
       <div className='pt-10 font-content bg-slate-100'>
         <Outlet />
       </div>
-
+      { showConfirmLoggedOut && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog ">
+          <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
+            <div className=" opacity-25 w-full h-full absolute z-10 inset-0"></div>
+            <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative shadow-lg">
+              {/* <div className="md:flex items-center">
+                <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                  <i className="bx bx-error text-3xl">
+                    &#9888;
+                  </i>
+                </div>
+                <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                  <p className="font-bold">Warning!</p>
+                  <p className="text-sm text-gray-700 mt-1">You will lose all of your data by deleting this. This action cannot be undone.
+                  </p>
+                </div>
+              </div> */}
+              <div className="text-center md:text-right mt-4 md:flex md:justify-end">
+                <button id="confirm-delete-btn" onClick={handleLogout} className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
+                        Log out
+                </button>
+                <button type='button' onClick={() => setShowConfirmLoggedOut(false)} id="confirm-cancel-btn" className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1">
+                    Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
