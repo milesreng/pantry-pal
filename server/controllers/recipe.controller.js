@@ -99,9 +99,13 @@ const recipeController = {
         public: recipe.public ? recipe.public : false
       })
 
-      await newRecipe.save()
+      var recipeId = ''
 
-      return res.status(200).json({ message: 'successfully saved recipe', ...newRecipe })
+      await newRecipe.save((err, recipe) => {
+        recipeId = recipe._id
+      })
+
+      return res.status(200).json({ message: 'successfully saved recipe', ...newRecipe, recipeId })
       
     } catch (e) {
       return res.status(400).json({ error: e.message, message: 'could not create recipe'})

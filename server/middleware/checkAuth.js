@@ -1,11 +1,17 @@
 const jwt = require('jsonwebtoken')
 
+
+// LOGINS
+// username: test@email.com
+// password: password
+
+
 const catchError = (err, res) => {
   if (err instanceof jwt.TokenExpiredError) {
-    return res.status(401).send({ message: 'Token expired', error: err.name })
+    return res.status(401).json({ message: 'Token expired', error: err.name })
   }
 
-  return res.status(401).send({ message: 'Unauthorized' })
+  return res.status(401).json({ message: 'Unauthorized' })
 }
 
 const checkAuth = async (req, res, next) => {

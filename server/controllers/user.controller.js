@@ -39,7 +39,8 @@ const userController = {
 
       const newUser = new User({ 
         username: lowerUsername, 
-        firstname: user.firstname,
+        firstname: user.first,
+        lastname: user.last,
         email: user.email,
         password: hashedPassword})
 
