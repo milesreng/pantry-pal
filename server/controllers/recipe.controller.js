@@ -58,7 +58,6 @@ const recipeController = {
   create_recipe: async (req, res) => {
     try {
       const recipe = req.body
-      console.log(recipe)
       const ingredients = []
       const tags = []
 
@@ -85,7 +84,7 @@ const recipeController = {
         for (let idx in recipe.tags) {
           let existTag = await RecipeTag.findById(recipe.tags[idx])
 
-          tags.push(existTag)
+          if (existTag) tags.push(existTag)
         }
       }
 
@@ -99,13 +98,9 @@ const recipeController = {
         public: recipe.public ? recipe.public : false
       })
 
-      var recipeId = ''
+      await newRecipe.save()
 
-      await newRecipe.save((err, recipe) => {
-        recipeId = recipe._id
-      })
-
-      return res.status(200).json({ message: 'successfully saved recipe', ...newRecipe, recipeId })
+      return res.status(200).json({ message: 'successfully saved recipe', ...newRecipe })
       
     } catch (e) {
       return res.status(400).json({ error: e.message, message: 'could not create recipe'})

@@ -9,6 +9,7 @@ import FormDetails from './recipe-form/FormDetails'
 import FormIngredients from './recipe-form/FormIngredients'
 import FormSteps from './recipe-form/FormSteps'
 import FormTags from './recipe-form/FormTags'
+import FormSummary from './recipe-form/FormSummary'
 
 import { Recipe } from '../types/recipe.type'
 
@@ -31,11 +32,18 @@ const CreateRecipeForm = () => {
 
   const [recipeData, setRecipeData] = useState<Recipe>(INITIAL_DATA)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [submitDisabled, setSubmitDisabled] = useState(false)
 
   const updateFields = (fields: Partial<Recipe>) => {
     setRecipeData(prev => {
       return { ...prev, ...fields }
     })
+
+    if (recipeData.title && recipeData.servings && recipeData.steps.length >= 1) {
+      setSubmitDisabled(false)
+    } else {
+      setSubmitDisabled(true)
+    }
 
     console.log(recipeData)
   }
@@ -44,7 +52,8 @@ const CreateRecipeForm = () => {
     <FormDetails {...recipeData} updateFields={updateFields} />,
     <FormIngredients {...recipeData} updateFields={updateFields} />,
     <FormSteps {...recipeData} updateFields={updateFields} />,
-    <FormTags {...recipeData} errorMessage={errorMessage} updateFields={updateFields} />
+    <FormTags {...recipeData} errorMessage={errorMessage} updateFields={updateFields} />,
+    <FormSummary recipe={recipeData} />
   ])
 
   const handleFormSubmit = (e: FormEvent) => {
@@ -59,16 +68,17 @@ const CreateRecipeForm = () => {
     const data = await response.json()
 
     if (response.ok) {
-      navigate(`/recipe/${data.recipeId}`)
+      navigate('/dashboard')
     } else {
       setErrorMessage(data.error) 
-      console.log(data)
+      console.log(data.error)
     }
   }
 
   return (
-    <div className='my-auto w-3/4 mx-auto bg-slate-200 py-4 px-12 rounded-md'>
+    <div className='my-auto w-3/4 md:w-2/3 mx-auto bg-slate-200 py-4 px-12 rounded-md'>
       <p className='text-center'>{stepIdx + 1} / {steps.length}</p>
+      { errorMessage && (<p>{errorMessage}</p>)}
       <form className='flex flex-col gap-4'
         onSubmit={handleFormSubmit}>
         { step }
@@ -88,7 +98,8 @@ const CreateRecipeForm = () => {
           ) : (
             <button className='bg-slate-600 hover:bg-slate-700 text-white py-1 px-2 rounded-md'
               onClick={handleCreateRecipe}
-              type='submit'>
+              type='submit'
+              disabled={submitDisabled}>
                 submit
             </button>
           )}

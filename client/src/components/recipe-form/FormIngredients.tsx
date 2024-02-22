@@ -32,6 +32,9 @@ const measurementList = [{
   label: 'oz',
   value: 'oz'
 }, {
+  label: 'lb',
+  value: 'lb'
+}, {
   label: 'package',
   value: 'package'
 }, {
@@ -45,6 +48,7 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
   const [createIngredient, setCreateIngredient] = useState<string>('')
   const [ingredientError, setIngredientError] = useState<string | null>()
 
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getIngredients()
@@ -52,6 +56,8 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
 
 
   const getIngredients = async () => {
+    console.log('set loading')
+    setLoading(true)
     const response = await exploreService.getIngredients()
     const data: Ingredient[] = await response.json()
     const options: OptionType[] = data.map(ingredient => ({
@@ -60,6 +66,8 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
     }))
 
     setIngredientList(options)
+    setLoading(false)
+    console.log('set loading false')
   }
 
   const handleUpdateIngredientId = (idx: number, option: OptionType | null) => {
@@ -116,44 +124,48 @@ const FormIngredients = ({ ingredients, updateFields }: FormIngredientsProps) =>
     } else {
       setIngredientError('Could not create ingredient.')
     }
-    // call api
   }
 
   return (
     <FormWrapper title='Ingredients'>
-      <>
-        {ingredients.map((ingr, idx) => (
-          <div key={idx} className='w-full flex gap-2'>
-            {ingredientList && (
-              <Select className='basis-2/3'
-                options={ingredientList} 
+      {loading ? (
+        <div>
+          Loading
+        </div>
+      ) : (
+        <>
+          {ingredients.map((ingr, idx) => (
+            <div key={idx} className='w-full flex gap-2'>
+              {ingredientList && (
+                <Select className='basis-1/2'
+                  options={ingredientList} 
+                  required
+                  onChange={(option) => handleUpdateIngredientId(idx, option)}
+                  value={ingredientList.find(option => option.value === ingr.ingredient) || null} />
+              )}
+              <input className='w-1/6'
+                value={ingr.qty}
                 required
-                onChange={(option) => handleUpdateIngredientId(idx, option)}
-                value={ingredientList.find(option => option.value === ingr.ingredient) || null} />
-            )}
-            <input className='basis-1/6'
-              value={ingr.qty}
-              required
-              onChange={(e) => handleUpdateIngredientQty(idx, e.target.value)}
-              type='number' />
-            <Select className='basis-1/4'
-              options={measurementList}
-              required
-              value={measurementList.find(meas => meas.value === ingr.measurement || null)}
-              onChange={(option) => handleUpdateIngredientMeasurement(idx, option)} />
-            {ingredients.length > 1 && (<button onClick={() => handleDeleteIngredient(idx)} type='button'>
-              <FontAwesomeIcon icon={faTrash} className='hover:text-[#c91c1c] duration-200 transition-all' />
-            </button>)}
-          </div>
-        ))}
-        <button type='button' onClick={handleAddIngredient}>
-          <FontAwesomeIcon icon={faSquarePlus} className='text-2xl hover:text-[#32a850] duration-200 transition-all' />
-        </button>
-        <span>
-          <span>Can&apos;t find an ingredient? </span>
-          <button type='button' onClick={() => setShowModal(true)} className='underline'>Add it now.</button>
-        </span> 
-      </>
+                onChange={(e) => handleUpdateIngredientQty(idx, e.target.value)}
+                type='number' />
+              <Select className='basis-1/4'
+                options={measurementList}
+                required
+                value={measurementList.find(meas => meas.value === ingr.measurement || null)}
+                onChange={(option) => handleUpdateIngredientMeasurement(idx, option)} />
+              {ingredients.length > 1 && (<button onClick={() => handleDeleteIngredient(idx)} type='button'>
+                <FontAwesomeIcon icon={faTrash} className='hover:text-[#c91c1c] duration-200 transition-all' />
+              </button>)}
+            </div>
+          ))}
+          <button type='button' onClick={handleAddIngredient}>
+            <FontAwesomeIcon icon={faSquarePlus} className='text-2xl hover:text-[#32a850] duration-200 transition-all' />
+          </button>
+          <span>
+            <span>Can&apos;t find an ingredient? </span>
+            <button type='button' onClick={() => setShowModal(true)} className='underline'>Add it now.</button>
+          </span> 
+        </>)}
       {showModal ? (
         <>
           <div

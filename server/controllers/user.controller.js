@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken')
+const util = require('util')
+const jwtVerify = util.promisify(jwt.verify)
 const bcrypt = require('bcrypt')
 const validator = require('validator')
 const { ObjectId } = require('mongodb')
@@ -87,22 +89,20 @@ const userController = {
     try {
       const token = req.headers['x-refresh-token']
 
-      jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-        if (err) throw err
+      const decoded = await jwtVerify(token, process.env.SECRET_KEY)
 
-        const userId = decoded.userId
-        const email = decoded.email
-        
-        const accessToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
-          expiresIn: '1h'
-        })
-  
-        const refreshToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
-          expiresIn: '1d'
-        })
+      const userId = decoded.userId
+      const email = decoded.email
 
-        return res.status(200).json({ accessToken, refreshToken })
+      const accessToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
+        expiresIn: '1h'
       })
+
+      const refreshToken = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
+        expiresIn: '1d'
+      })
+
+      return res.status(200).json({ accessToken, refreshToken })
 
       
     } catch (e) {

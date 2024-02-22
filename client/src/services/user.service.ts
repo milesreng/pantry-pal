@@ -34,6 +34,7 @@ class UserService {
       body: JSON.stringify(recipe)
     })
 
+    console.log(response)
     if (response.ok) return response
 
     if (await authService.tryRefresh(response)) {
