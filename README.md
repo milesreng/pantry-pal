@@ -1,5 +1,7 @@
 # pantry-pal
 
+This site is currently live at [this link](https://pantry-pal-pedt.onrender.com). Note that the API backend is hosted on a free service so it can take up to a minute to complete API requests upon first render
+
 ## User Stories
 - Authenticate securely
 - Create, view, edit, and delete recipes, with details such as name, cuisine, cook time, ingredients, and serving size
