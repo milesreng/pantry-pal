@@ -79,7 +79,7 @@ const userController = {
         expiresIn: '1d'
       })
 
-      res.status(200).json({ accessToken, refreshToken, ...dbUser })
+      res.status(200).json({ accessToken, refreshToken, dbUser })
     } catch (e) {
       console.log(e)
       return res.status(402).json({ error: 'user authentication failed' })
@@ -149,7 +149,14 @@ const userController = {
     } catch (e) {
       return res.status(400).json({ error: 'could not update user data' })
     }
-  }
+  },
+  // uploadUserImage: async (req, res) => {
+  //   try {
+  //     const gfs = new Grid(mongoose.connection.db, mongoose.mongo)
+  //   } catch (e) {
+  //     return res.status(400).json({ error: 'could not upload user image' })
+  //   }
+  // }
 }
 
 module.exports = userController

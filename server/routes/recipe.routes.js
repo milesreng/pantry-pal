@@ -33,10 +33,16 @@ router.post('/tags', recipeController.create_tag)
 // @status  --
 router.get('/user', checkAuth, recipeController.get_user_recipes)
 
+// @route   DELETE api/recipes/:id
+// @desc    Delete recipe
+// @status  --
+router.delete('/:id', checkAuth, recipeController.delete_recipe)
+
 // @route   GET api/recipes/:id
 // @desc    Get recipe by id
 // @status  --
 router.get('/:id', recipeController.get_recipe_by_id)
+
 
 // @route   GET api/recipes/
 // @desc    Get all recipes

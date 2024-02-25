@@ -9,7 +9,6 @@ const Recipe = require('../models/recipe.model')
 const recipeController = {
   get_all_recipes: async (req, res) => {
     try {
-      console.log('attempting to retrieve all recipes')
       const recipes = await Recipe.find({ public: true })
 
       if (recipes) {
@@ -21,7 +20,6 @@ const recipeController = {
   },
   get_user_recipes: async (req, res) => {
     try {
-      console.log('attempting to retrieve user recipes')
 
       if (!req.userData.userId) return res.status(400).json({ message: 'invalid user id'})
 
@@ -104,6 +102,18 @@ const recipeController = {
       
     } catch (e) {
       return res.status(400).json({ error: e.message, message: 'could not create recipe'})
+    }
+  },
+  delete_recipe: async (req, res) => {
+    try {
+      const recipeId = req.params.id
+
+      await Recipe.findByIdAndDelete(recipeId)
+
+      return res.status(200).json({ message: 'successfully deleted recipe' })
+      
+    } catch (error) {
+      return res.status(400).json({ error: e.message, message: 'could not delete recipe'})
     }
   },
   get_all_ingredients: async (req, res) => {

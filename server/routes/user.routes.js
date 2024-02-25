@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const checkAuth = require('../middleware/checkAuth')
+const uploadImage = require('../middleware/uploadImage')
 const userController = require('../controllers/user.controller')
 
 // @route   GET api/users/
@@ -12,5 +13,10 @@ router.get('/', checkAuth, userController.getUser)
 // @desc    Update user data
 // @status  --
 router.put('/', checkAuth, userController.getUser)
+
+// @route   POST api/users/
+// @desc    Update user data
+// @status  --
+// router.post('/image', upload.single('file'), userController.uploadUserImage)
 
 module.exports = router
