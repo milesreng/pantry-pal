@@ -15,6 +15,7 @@ class AuthService {
 
       localStorage.setItem('accessToken', data.accessToken)
       localStorage.setItem('refreshToken', data.refreshToken)
+      localStorage.setItem('userId', data.dbUser._id)
 
       return data
     } catch(e: unknown) {

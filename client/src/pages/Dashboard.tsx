@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import UserService from '../services/user.service'
 import { User } from '../types/user.type'
+import RecipeCard from '../components/recipe-form/RecipeCard'
 
 import { RecipeDetailsType } from '../types/recipe.type'
 
@@ -49,12 +50,14 @@ const Dashboard = () => {
         ) }
         <p className='text-2xl font-bold pb-4'>Your Recipes</p>
         <div className='flex gap-4'>
-          <div className='border-2 border-slate-400 basis-1/4 p-4 aspect-square text-center align-middle flex'>
+          <div className='basis-1/4 p-4 aspect-square text-center align-middle flex'>
             <Link className='my-auto' to='/create-recipe'>+ Create new recipe</Link>
           </div>
           {recipes && recipes.map((recipe, idx) => (
-            <div key={idx} className='border-2 border-slate-400 basis-1/4 p-4 aspect-square text-center align-middle flex'>
-              <Link to={`/recipe/${recipe._id}`}>{recipe.title}</Link>
+            <div key={idx} className='basis-1/4 aspect-square'>
+              <Link to={`/recipe/${recipe._id}`}>
+                <RecipeCard recipe={recipe} />
+              </Link>
             </div>
           ))}
         </div>

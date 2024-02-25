@@ -7,7 +7,8 @@ import { User } from '../types/user.type'
 import { useAuth } from '../context/AuthContext'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -41,14 +42,14 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed font-header text-xl'>
+      <div className='w-full border-b-2 bg-slate-800 text-white border-b-black py-2 px-4 flex justify-between fixed font-header text-md md:text-xl'>
         <div className='basis-1/6'>
           <Link to='/' className='hover:text-slate-200 transition-all duration-200 flex align-middle gap-2'>
-            <FontAwesomeIcon icon={faUtensils} className='my-auto' /> <span className='my-auto'>Pantry Pal</span>
+            <FontAwesomeIcon icon={faUtensils} className='my-auto' /> <span className='my-auto hidden md:flex'>Pantry Pal</span>
           </Link>
         </div>
         <div className='flex gap-16 basis-2/3 text-center justify-center'>
-          <Link to='/explore' className='hover:text-slate-200 transition-all duration-200'>Explore</Link>
+          {/* <Link to='/explore' className='hover:text-slate-200 transition-all duration-200'>Explore</Link> */}
           {loggedIn && (
             <>
               <Link to='/dashboard' className='hover:text-slate-200 transition-all duration-200'>Create A Recipe</Link>
@@ -64,22 +65,29 @@ const Navbar = () => {
           )} */}
           {loggedIn && user ? (
             <>
-              <button onClick={() => {
-                if (showDropdown) {
-                  setShowDropdown(false)
-                } else {
-                  setShowDropdown(true)
-                }}}>{user.firstname}</button>
+              <button className='border-[1px] border-slate-400 rounded-full px-2 hover:bg-slate-700 transition-all duration-200 flex gap-2 align-middle'
+                onClick={() => {
+                  if (showDropdown) {
+                    setShowDropdown(false)
+                  } else {
+                    setShowDropdown(true)
+                  }}}>
+                <span className='hidden md:flex my-auto'>
+                  {user.firstname}
+                </span>
+                <FontAwesomeIcon icon={faUser} className='flex md:hidden my-auto' />
+                <FontAwesomeIcon icon={faCaretDown} className='my-auto' /> 
+              </button>
               {showDropdown && (
                 <div className='absolute flex flex-col bg-slate-200 text-slate-900 mt-8 px-2 pb-2 rounded-sm text-center w-1/6'>
                   <div className='rounded-full aspect-square w-5/6 md:w-1/3 mx-auto bg-slate-300 mt-8 mb-4'>
 
                   </div>
-                  <span>{user.firstname} {user.lastname}</span>
+                  <span className='font-semibold text-lg'>{user.firstname} {user.lastname}</span>
                   <span className='mb-4'>Logged in as <br /> {user.email} </span>
-                  <span className='py-1 hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200'><Link to='/profile'>Profile</Link></span>
-                  <span className='py-1 hover:cursor-pointer hover:bg-slate-500 hover:text-white transition-all duration-200'>Settings</span>
-                  <span className='py-1 hover:cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-200' onClick={() => setShowConfirmLoggedOut(true)}>Log out</span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-slate-300 transition-all duration-200'><Link to='/profile'>Profile</Link></span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-slate-300 transition-all duration-200'>Settings</span>
+                  <span className='py-1 hover:cursor-pointer hover:bg-slate-300 hover:text-red-700 transition-all duration-200' onClick={() => setShowConfirmLoggedOut(true)}>Log out</span>
                 </div>
               )}
             </>
@@ -94,7 +102,7 @@ const Navbar = () => {
         <Outlet />
       </div>
       { showConfirmLoggedOut && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog ">
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog font-content">
           <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
             <div className=" opacity-25 w-full h-full absolute z-10 inset-0"></div>
             <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative shadow-lg">
@@ -110,7 +118,7 @@ const Navbar = () => {
                   </p>
                 </div>
               </div> */}
-              <div className="text-center md:text-right mt-4 md:flex md:justify-end">
+              <div className="text-center md:text-right md:flex md:justify-end">
                 <button id="confirm-delete-btn" onClick={handleLogout} className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
                         Log out
                 </button>

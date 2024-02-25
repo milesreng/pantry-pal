@@ -39,6 +39,9 @@ const FormDetails = ({ title, servings, description, updateFields }: FormDetails
           value={description || ''}
           onChange={(e) => updateFields({ description: e.target.value })} />
       </div>
+      <div className='flex justify-between w-full'>
+        <label className='w-1/4' htmlFor='description'>Description</label>
+      </div>
     </FormWrapper>
   )
 }

@@ -28,7 +28,7 @@ export interface Recipe {
   ingredients: RecipeIngredient[] | [],
   steps: string[],
   tags: string[],
-  public: boolean
+  is_public: boolean
 }
 
 export interface RecipeDetailsType {
@@ -39,7 +39,7 @@ export interface RecipeDetailsType {
   ingredients: RecipeIngredientDetails[] | [],
   steps: string[],
   tags: string[],
-  public: boolean
+  is_public: boolean
 }
 
 export interface OptionType {

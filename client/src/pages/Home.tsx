@@ -8,7 +8,11 @@ const Home = () => {
   const { loggedIn } = useAuth()
 
   useEffect(() => {
-    if (loggedIn) navigate('/dashboard')
+    if (loggedIn) {
+      navigate('/dashboard')
+    } else {
+      navigate('/explore')
+    }
   },[])
 
   return (

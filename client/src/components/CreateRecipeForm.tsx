@@ -24,7 +24,7 @@ const INITIAL_DATA = {
   }],
   steps: [''],
   tags: [],
-  public: false
+  is_public: false
 }
 
 const CreateRecipeForm = () => {
